@@ -4,6 +4,8 @@ import { PollWidget } from "@/components/poll-widget";
 import { NepaliCalendar } from "@/components/nepali-calendar";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [articles, polls] = await Promise.all([
     prisma.article.findMany({
