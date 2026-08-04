@@ -5,7 +5,7 @@ import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "Nepalioripari - Nepal News Portal",
-  description: "Your trusted source for Nepali news and updates",
+  description: "Nepalioripari - Bridging Nepalies Worldwide. Your trusted source for Nepali news and updates",
 };
 
 export default function RootLayout({
