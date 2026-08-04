@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password      String?
+  image         String?
+  role          String    @default("USER")
+  emailVerified DateTime?
+  provider      String    @default("credentials")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  articles     Article[]
+  votes        Vote[]
+  comments     Comment[]
+  articleVotes ArticleVote[]
+  commentVotes CommentVote[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String
+  excerpt     String?
+  imageUrl    String?
+  category    String   @default("general")
+  country     String   @default("Nepal")
+  views       Int      @default(0)
+  published   Boolean  @default(false)
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  author   User          @relation(fields: [authorId], references: [id])
+  comments Comment[]
+  votes    ArticleVote[]
+}
+
+model ArticleVote {
+  id        String   @id @default(uuid())
+  userId    String
+  articleId String
+  value     Int      // 1 for upvote, -1 for downvote
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+}
+
+model Poll {
+  id        String   @id @default(uuid())
+  question  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  options PollOption[]
+}
+
+model PollOption {
+  id     String @id @default(uuid())
+  text   String
+  pollId String
+
+  poll  Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes Vote[]
+}
+
+model Vote {
+  id           String   @id @default(uuid())
+  userId       String
+  pollOptionId String
+  createdAt    DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id])
+  pollOption PollOption @relation(fields: [pollOptionId], references: [id])
+
+  @@unique([userId, pollOptionId])
+}
+
+model Comment {
+  id           String   @id @default(uuid())
+  content      String
+  fbEmbedUrl   String?
+  articleId    String
+  userId       String
+  createdAt    DateTime @default(now())
+
+  article Article       @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id])
+  votes   CommentVote[]
+}
+
+model CommentVote {
+  id        String   @id @default(uuid())
+  userId    String
+  commentId String
+  value     Int      // 1 for upvote, -1 for downvote
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+}
