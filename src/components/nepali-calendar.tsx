@@ -57,68 +57,41 @@ const BS_CALENDAR_DATA: Record<number, number[]> = {
   2090: [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 31],
 };
 
-// Major Nepali events/holidays by BS month and day
+// Nepali holidays that fall on FIXED Bikram Sambat dates every year.
+// Lunar festivals (Dashain, Tihar, Teej, Shivaratri, Holi, Buddha Jayanti,
+// Sonam/Gyalpo Lhosar, Chhath, Janai Purnima) shift each year and are
+// intentionally NOT listed here — they cannot be derived from a fixed BS day.
 // Format: { [month (0-indexed)]: { [day]: string } }
 const NEPAL_EVENTS: Record<number, Record<number, string>> = {
-  0: { // Baisakh
-    1: "नयाँ वर्ष (New Year)",
-    11: "लोकतन्त्र दिवस (Democracy Day)",
+  0: {
+    // Baisakh
+    1: "नयाँ वर्ष (Nepali New Year)",
+    18: "मजदुर दिवस (Labour Day)",
   },
-  1: { // Jestha
-    1: "मजदुर दिवस (Labour Day)",
-    15: "बुद्ध जयन्ती (Buddha Jayanti)",
-    29: "गणतन्त्र दिवस (Republic Day)",
+  1: {
+    // Jestha
+    15: "गणतन्त्र दिवस (Republic Day)",
   },
-  2: { // Asar
-    15: "धान रोपाइँ दिवस (Paddy Day)",
+  2: {
+    // Asar
+    15: "धान दिवस / रोपाइँ जात्रा (National Paddy Day)",
   },
-  3: { // Shrawan
-    // Shrawan Sombar (Mondays of Shrawan - varies)
-    1: "श्रावण सुरु (Shrawan begins)",
+  5: {
+    // Ashwin
+    3: "संविधान दिवस (Constitution Day)",
   },
-  4: { // Bhadra
-    3: "तीज (Teej)",
-    18: "कृष्ण जन्माष्टमी (Krishna Janmashtami)",
+  8: {
+    // Poush
+    15: "तमु ल्होसार (Tamu Lhosar)",
   },
-  5: { // Ashwin
-    // Dashain period - approximate
-    1: "घटस्थापना (Ghatasthapana)",
-    7: "फूलपाती (Fulpati)",
-    8: "महाअष्टमी (Maha Ashtami)",
-    9: "महानवमी (Maha Nawami)",
-    10: "विजयादशमी (Vijaya Dashami)",
-    15: "कोजाग्रत पूर्णिमा (Kojagrat Purnima)",
-  },
-  6: { // Kartik
-    // Tihar period
-    12: "काग तिहार (Kaag Tihar)",
-    13: "कुकुर तिहार (Kukur Tihar)",
-    14: "लक्ष्मी पूजा (Laxmi Puja)",
-    15: "गोवर्धन पूजा (Govardhan Puja)",
-    16: "भाइटीका (Bhai Tika)",
-    29: "छठ पर्व (Chhath Parva)",
-  },
-  7: { // Mangsir
-    // Typically quiet month
-  },
-  8: { // Poush
-    1: "तमु ल्होसार (Tamu Lhosar)",
-    15: "माघे संक्रान्ति (Maghe Sankranti)",
-  },
-  9: { // Magh
+  9: {
+    // Magh
     1: "माघे संक्रान्ति (Maghe Sankranti)",
-    7: "शहीद दिवस (Martyrs' Day)",
-    11: "सोनाम ल्होसार (Sonam Lhosar)",
+    16: "शहीद दिवस (Martyrs' Day)",
   },
-  10: { // Falgun
+  10: {
+    // Falgun
     7: "प्रजातन्त्र दिवस (Democracy Day)",
-    19: "महाशिवरात्रि (Maha Shivaratri)",
-    26: "ग्याल्पो ल्होसार (Gyalpo Lhosar)",
-  },
-  11: { // Chaitra
-    // Holi period
-    1: "फागु पूर्णिमा/होली (Fagu Purnima/Holi)",
-    14: "चैते दशैँ (Chaite Dashain)",
   },
 };
 
@@ -401,7 +374,7 @@ export function NepaliCalendar() {
         {eventDays.length > 0 && (
           <div className="mt-4 pt-3 border-t border-gray-100">
             <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">
-              Events this month
+              Fixed-date holidays
             </p>
             <div className="space-y-1.5 max-h-32 overflow-y-auto">
               {eventDays.map((day) => (
