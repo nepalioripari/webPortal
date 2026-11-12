@@ -16,28 +16,28 @@ interface ArticleCardProps {
   };
 }
 
-export function ArticleCard({ article }: ArticleCardProps) {
-  const categoryColors: Record<string, string> = {
-    politics: "bg-blue-500",
-    sports: "bg-green-500",
-    technology: "bg-purple-500",
-    entertainment: "bg-pink-500",
-    business: "bg-amber-500",
-    general: "bg-gray-500",
-  };
+const categoryAccents: Record<string, string> = {
+  politics: "text-blue-600",
+  sports: "text-green-600",
+  technology: "text-purple-600",
+  entertainment: "text-pink-600",
+  business: "text-amber-600",
+  general: "text-gray-600",
+};
 
-  const badgeColor = categoryColors[article.category] || "bg-gray-500";
+export function ArticleCard({ article }: ArticleCardProps) {
+  const accent = categoryAccents[article.category] || "text-gray-600";
 
   return (
     <Link href={`/article/${article.id}`}>
-      <article className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden card-hover group">
-        <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
+      <article className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden card-hover group h-full flex flex-col">
+        <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
           {article.imageUrl ? (
             <Image
               src={article.imageUrl}
               alt={article.title}
               fill
-              className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+              className="object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -58,20 +58,16 @@ export function ArticleCard({ article }: ArticleCardProps) {
               </div>
             </div>
           )}
-          <span
-            className={`absolute top-3 left-3 ${badgeColor} text-white text-xs px-2.5 py-1 rounded-full capitalize font-medium shadow-sm`}
-          >
-            {article.category}
-          </span>
         </div>
-        <div className="p-5">
-          <h2 className="text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-[#e63946] transition-colors duration-200">
+        <div className="p-5 flex flex-col flex-1">
+          <span className={`kicker ${accent}`}>{article.category}</span>
+          <h2 className="font-serif-display text-lg font-bold text-gray-900 leading-snug line-clamp-2 mt-2 group-hover:text-[#e63946] transition-colors duration-200">
             {article.title}
           </h2>
           <p className="text-sm text-gray-500 mt-2 line-clamp-2 leading-relaxed">
             {article.excerpt}
           </p>
-          <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-50">
+          <div className="flex justify-between items-center mt-auto pt-3 border-t border-gray-50">
             <div className="flex items-center space-x-2">
               <div className="w-6 h-6 bg-[#457b9d] rounded-full flex items-center justify-center">
                 <span className="text-white text-[10px] font-bold">

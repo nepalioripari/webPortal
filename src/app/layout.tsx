@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
+
+const display = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["600", "700", "800", "900"],
+});
+
+const body = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
 
 export const metadata: Metadata = {
   title: "Nepalioripari - Nepal News Portal",
@@ -14,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen">
         <Providers>
           <Navbar />
@@ -26,9 +38,9 @@ export default function RootLayout({
                 <div>
                   <div className="flex items-center space-x-2 mb-3">
                     <div className="w-8 h-8 bg-gradient-to-br from-[#e63946] to-[#c1121f] rounded-lg flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">N</span>
+                      <span className="font-serif-display text-white font-bold text-sm">N</span>
                     </div>
-                    <h3 className="text-xl font-bold">
+                    <h3 className="font-serif-display text-xl font-bold">
                       Nepali<span className="text-[#e63946]">oripari</span>
                     </h3>
                   </div>

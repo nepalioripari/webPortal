@@ -2,21 +2,41 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Navbar() {
   const { data: session } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [today, setToday] = useState("");
+
+  useEffect(() => {
+    setToday(
+      new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    );
+  }, []);
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+    <nav className="bg-white/90 backdrop-blur-md border-b border-gray-200/80 sticky top-0 z-50">
+      {/* Top strip */}
+      <div className="hidden sm:block border-b border-gray-100 bg-[#1d3557]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-8 text-[11px] text-blue-200/80">
+          <span className="tracking-wide">{today}</span>
+          <span className="tracking-wide font-medium text-blue-100">Bridging Nepalis Worldwide</span>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#e63946] to-[#c1121f] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">N</span>
+        <div className="flex justify-between items-center h-[72px]">
+          <Link href="/" className="flex items-center space-x-2.5">
+            <div className="w-9 h-9 bg-gradient-to-br from-[#e63946] to-[#c1121f] rounded-lg flex items-center justify-center shadow-sm">
+              <span className="font-serif-display text-white font-bold text-base">N</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">
+            <span className="font-serif-display text-2xl font-bold text-gray-900 tracking-tight">
               Nepali<span className="text-[#e63946]">oripari</span>
             </span>
           </Link>
@@ -154,9 +174,10 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="text-gray-600 hover:text-[#e63946] font-medium text-sm px-3 py-2 rounded-lg hover:bg-red-50/50"
+      className="relative text-gray-600 hover:text-[#1d3557] font-medium text-sm px-3 py-2 group"
     >
       {children}
+      <span className="absolute left-3 right-3 bottom-1 h-[2px] bg-[#e63946] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
     </Link>
   );
 }

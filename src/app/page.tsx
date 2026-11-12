@@ -3,6 +3,7 @@ import { ArticleCard } from "@/components/article-card";
 import { PollWidget } from "@/components/poll-widget";
 import { NepaliCalendar } from "@/components/nepali-calendar";
 import Link from "next/link";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -37,43 +38,29 @@ export default async function HomePage() {
     { name: "business", emoji: "💼" },
   ];
 
+  const [lead, ...rest] = articles;
+  const secondary = rest.slice(0, 3);
+  const grid = rest.slice(3);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      {/* Hero Section */}
-      <section className="mb-10">
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#1d3557] via-[#457b9d] to-[#1d3557] rounded-2xl p-8 md:p-12 text-white shadow-xl">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djJIMjR2LTJoMTJ6bTAtNHYySDI0di0yaDEyem0wLTR2MkgyNHYtMmgxMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50"></div>
-          <div className="relative">
-            <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
-              Nepali<span className="text-[#e63946]">oripari</span>
-            </h1>
-            <p className="text-blue-100 text-lg md:text-xl max-w-xl leading-relaxed">
-              Your trusted source for the latest news from Nepal and beyond
-            </p>
-            <div className="flex items-center space-x-4 mt-6">
-              <a
-                href="#latest"
-                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-white/20"
-              >
-                Latest News →
-              </a>
-              <Link
-                href="/polls"
-                className="text-blue-200 hover:text-white text-sm font-medium"
-              >
-                Take a Poll
-              </Link>
-            </div>
-          </div>
-        </div>
+      {/* Masthead */}
+      <section className="mb-8 text-center">
+        <p className="kicker text-[#e63946]">Bridging Nepalis Worldwide</p>
+        <h1 className="font-serif-display text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mt-2">
+          Nepali<span className="text-[#e63946]">oripari</span>
+        </h1>
+        <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mt-3 leading-relaxed">
+          Your trusted source for the latest news from Nepal and beyond
+        </p>
       </section>
 
       {/* Categories */}
-      <section className="mb-8">
-        <div className="flex flex-wrap gap-2">
+      <section className="mb-10">
+        <div className="flex flex-wrap justify-center gap-2 border-y border-gray-200 py-3">
           <Link
             href="/"
-            className="px-4 py-2 bg-[#e63946] text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md"
+            className="px-4 py-1.5 bg-[#e63946] text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md"
           >
             All News
           </Link>
@@ -81,7 +68,7 @@ export default async function HomePage() {
             <Link
               key={cat.name}
               href={`/news/${cat.name}`}
-              className="px-4 py-2 bg-white text-gray-700 rounded-full text-sm font-medium border border-gray-200 hover:border-[#e63946] hover:text-[#e63946] shadow-sm"
+              className="px-4 py-1.5 bg-transparent text-gray-600 rounded-full text-sm font-medium border border-transparent hover:border-[#e63946] hover:text-[#e63946]"
             >
               {cat.emoji} <span className="capitalize">{cat.name}</span>
             </Link>
@@ -89,17 +76,74 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {lead ? (
+        <section className="mb-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Lead story */}
+          <Link href={`/article/${lead.id}`} className="lg:col-span-2 group">
+            <article className="relative overflow-hidden rounded-2xl shadow-lg h-[320px] md:h-[440px] bg-gradient-to-br from-[#1d3557] to-[#457b9d]">
+              {lead.imageUrl && (
+                <Image
+                  src={lead.imageUrl}
+                  alt={lead.title}
+                  fill
+                  priority
+                  className="object-cover opacity-90 group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 p-6 md:p-8">
+                <span className="kicker text-red-300">{lead.category}</span>
+                <h2 className="font-serif-display text-2xl md:text-4xl font-bold text-white leading-tight mt-2 max-w-2xl group-hover:underline underline-offset-4">
+                  {lead.title}
+                </h2>
+                <p className="text-blue-100/90 text-sm md:text-base mt-3 max-w-xl line-clamp-2">
+                  {lead.excerpt}
+                </p>
+                <p className="text-blue-200/70 text-xs mt-4">
+                  By {lead.author.name} · {new Date(lead.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            </article>
+          </Link>
+
+          {/* Secondary headlines */}
+          <div className="flex flex-col divide-y divide-gray-200">
+            {secondary.map((article) => (
+              <Link
+                key={article.id}
+                href={`/article/${article.id}`}
+                className="group py-4 first:pt-0"
+              >
+                <span className="kicker text-[#457b9d]">{article.category}</span>
+                <h3 className="font-serif-display text-base font-bold text-gray-900 leading-snug mt-1.5 group-hover:text-[#e63946]">
+                  {article.title}
+                </h3>
+                <p className="text-xs text-gray-400 mt-1.5">
+                  {new Date(article.createdAt).toLocaleDateString()}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100 mb-12">
+          <div className="text-4xl mb-3">📰</div>
+          <p className="text-gray-500 text-lg font-medium">No news articles yet.</p>
+          <p className="text-gray-400 mt-1">Check back soon for the latest updates!</p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main content */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
-            <h2 id="latest" className="text-2xl font-bold text-gray-900">Latest News</h2>
-            <div className="h-1 flex-1 mx-4 bg-gradient-to-r from-[#e63946] to-transparent rounded-full opacity-30"></div>
+            <h2 id="latest" className="font-serif-display text-2xl font-bold text-gray-900">More Headlines</h2>
+            <div className="rule flex-1 ml-4 text-gray-300"></div>
           </div>
 
-          {articles.length > 0 ? (
+          {grid.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {articles.map((article) => (
+              {grid.map((article) => (
                 <ArticleCard
                   key={article.id}
                   article={{
@@ -110,15 +154,9 @@ export default async function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-100">
-              <div className="text-4xl mb-3">📰</div>
-              <p className="text-gray-500 text-lg font-medium">
-                No news articles yet.
-              </p>
-              <p className="text-gray-400 mt-1">
-                Check back soon for the latest updates!
-              </p>
-            </div>
+            lead && (
+              <p className="text-gray-400 text-sm">That&apos;s all for now — check back soon for more.</p>
+            )
           )}
         </div>
 

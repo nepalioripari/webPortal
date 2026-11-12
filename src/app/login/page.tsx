@@ -41,7 +41,7 @@ export default function LoginPage() {
             <div className="w-12 h-12 bg-gradient-to-br from-[#e63946] to-[#c1121f] rounded-xl flex items-center justify-center mx-auto mb-4">
               <span className="text-white font-bold text-lg">N</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
+            <h1 className="font-serif-display text-2xl font-bold text-gray-900">Welcome back</h1>
             <p className="text-gray-500 text-sm mt-1">
               Sign in to your Nepalioripari account
             </p>

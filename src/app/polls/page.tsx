@@ -13,8 +13,13 @@ export default async function PollsPage() {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Active Polls</h1>
+    <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
+      <div className="mb-8 pb-6 border-b border-gray-200">
+        <p className="kicker text-[#e63946]">Community</p>
+        <h1 className="font-serif-display text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+          Active Polls
+        </h1>
+      </div>
 
       {polls.length > 0 ? (
         <div className="space-y-6">
@@ -23,7 +28,7 @@ export default async function PollsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
+        <div className="text-center py-16 bg-white rounded-xl border border-gray-100 shadow-sm">
           <p className="text-gray-500 text-lg">No active polls right now.</p>
           <p className="text-gray-400 mt-2">Check back soon!</p>
         </div>

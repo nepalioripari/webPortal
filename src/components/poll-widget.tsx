@@ -62,7 +62,7 @@ export function PollWidget({ poll }: { poll: Poll }) {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div className="flex items-center space-x-2 mb-4">
         <span className="text-lg">📊</span>
-        <h3 className="text-base font-bold text-gray-900">{poll.question}</h3>
+        <h3 className="font-serif-display text-base font-bold text-gray-900">{poll.question}</h3>
       </div>
 
       <div className="space-y-2.5">

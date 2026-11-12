@@ -68,50 +68,63 @@ export default async function ArticlePage({
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
       {/* Admin Actions */}
       {isAdmin && <ArticleActions articleId={article.id} />}
 
       <article>
         {/* Category Badge */}
-        <div className="flex items-center space-x-2 mb-4">
-          <span className="inline-block bg-red-600 text-white text-xs px-3 py-1 rounded-full capitalize">
-            {article.category}
-          </span>
+        <div className="flex items-center space-x-3 mb-4">
+          <span className="kicker text-[#e63946]">{article.category}</span>
           {article.country && (
-            <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">
-              📍 {article.country}
-            </span>
+            <span className="text-xs text-gray-400">📍 {article.country}</span>
           )}
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="font-serif-display text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
           {article.title}
         </h1>
 
-        {/* Meta + Views */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6">
-          <span>By {article.author.name}</span>
-          <span>•</span>
-          <span>{new Date(article.createdAt).toLocaleDateString()}</span>
-          <span>•</span>
-          <ViewCounter articleId={article.id} views={article.views} />
-        </div>
+        {article.excerpt && (
+          <p className="text-lg md:text-xl text-gray-500 leading-relaxed mb-6">
+            {article.excerpt}
+          </p>
+        )}
 
-        {/* Content with Like/Dislike */}
-        <div className="mb-6">
-          <VoteButtons
-            type="article"
-            id={article.id}
-            initialScore={articleScore}
-            initialUserVote={userArticleVote}
-          />
+        {/* Meta + Views */}
+        <div className="flex flex-wrap items-center justify-between gap-3 py-4 border-y border-gray-200 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-[#457b9d] rounded-full flex items-center justify-center shrink-0">
+              <span className="text-white text-sm font-bold">
+                {article.author.name.charAt(0).toUpperCase()}
+              </span>
+            </div>
+            <div className="text-sm">
+              <p className="font-semibold text-gray-900">{article.author.name}</p>
+              <p className="text-gray-400">
+                {new Date(article.createdAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <ViewCounter articleId={article.id} views={article.views} />
+            <VoteButtons
+              type="article"
+              id={article.id}
+              initialScore={articleScore}
+              initialUserVote={userArticleVote}
+            />
+          </div>
         </div>
 
         {/* Featured Image */}
         {article.imageUrl && (
-          <div className="relative w-full h-64 md:h-96 mb-8 rounded-lg overflow-hidden">
+          <div className="relative w-full h-64 md:h-[28rem] mb-8 rounded-xl overflow-hidden shadow-sm">
             <Image
               src={article.imageUrl}
               alt={article.title}
@@ -123,9 +136,9 @@ export default async function ArticlePage({
         )}
 
         {/* Content */}
-        <div className="prose prose-lg max-w-none">
+        <div className="prose prose-lg max-w-none font-serif-display">
           {article.content.split("\n").map((paragraph, i) => (
-            <p key={i} className="text-gray-700 leading-relaxed mb-4">
+            <p key={i} className="text-gray-800 leading-relaxed mb-5 text-[1.05rem]">
               {paragraph}
             </p>
           ))}

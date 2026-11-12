@@ -33,16 +33,16 @@ export default async function CategoryPage({
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex items-center space-x-2 mb-6">
-        <Link href="/" className="text-gray-500 hover:text-red-600">
+    <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+      <div className="flex items-center space-x-2 mb-3 text-sm">
+        <Link href="/" className="text-gray-400 hover:text-[#e63946]">
           Home
         </Link>
-        <span className="text-gray-400">/</span>
-        <span className="text-red-600 capitalize font-medium">{category}</span>
+        <span className="text-gray-300">/</span>
+        <span className="text-[#e63946] capitalize font-medium">{category}</span>
       </div>
 
-      <h1 className="text-3xl font-bold text-gray-900 mb-8 capitalize">
+      <h1 className="font-serif-display text-3xl md:text-4xl font-bold text-gray-900 mb-8 capitalize pb-6 border-b border-gray-200">
         {category} News
       </h1>
 
@@ -59,13 +59,13 @@ export default async function CategoryPage({
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-white rounded-lg shadow">
+        <div className="text-center py-16 bg-white rounded-xl border border-gray-100 shadow-sm">
           <p className="text-gray-500 text-lg">
             No articles in this category yet.
           </p>
           <Link
             href="/"
-            className="inline-block mt-4 text-red-600 hover:underline"
+            className="inline-block mt-4 text-[#e63946] hover:underline font-medium"
           >
             ← Back to Home
           </Link>
